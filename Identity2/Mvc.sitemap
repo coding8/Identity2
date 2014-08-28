@@ -4,6 +4,7 @@
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
   <mvcSiteMapNode title="Home" controller="Home" action="Index">
+    
     <mvcSiteMapNode title="About" controller="Home" action="About"/>
     <mvcSiteMapNode title="Contact" controller="Home" action="Contact"/>
 
@@ -14,6 +15,13 @@
         <mvcSiteMapNode title="Menu-2-2" controller="Home" action="Menu22"/>
       </mvcSiteMapNode>
     </mvcSiteMapNode>
-  </mvcSiteMapNode>
 
+    <mvcSiteMapNode title="用户管理" clickable="false">
+      <mvcSiteMapNode title="User" controller="User" action="Index" />
+      <mvcSiteMapNode title="Role" controller="Role" action="Index"/>
+      <mvcSiteMapNode title="UserAndRole" controller="User" action="ListUserAndRole" />
+      <mvcSiteMapNode title="Reset Password" controller="User" action="ResetPassword"/>
+    </mvcSiteMapNode>
+    
+  </mvcSiteMapNode>
 </mvcSiteMap>

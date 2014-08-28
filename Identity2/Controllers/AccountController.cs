@@ -200,46 +200,46 @@ namespace Identity2.Controllers
 	
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
-            if (code == null) 
-            {
-                return View("Error");
-            }
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult ResetPassword(string code)
+        //{
+        //    if (code == null) 
+        //    {
+        //        return View("Error");
+        //    }
+        //    return View();
+        //}
 
-        //
-        // POST: /Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null)
-                {
-                    ModelState.AddModelError("", "找不到用户。");
-                    return View();
-                }
-                IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ResetPasswordConfirmation", "Account");
-                }
-                else
-                {
-                    AddErrors(result);
-                    return View();
-                }
-            }
+        ////
+        //// POST: /Account/ResetPassword
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await UserManager.FindByNameAsync(model.Email);
+        //        if (user == null)
+        //        {
+        //            ModelState.AddModelError("", "找不到用户。");
+        //            return View();
+        //        }
+        //        IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToAction("ResetPasswordConfirmation", "Account");
+        //        }
+        //        else
+        //        {
+        //            AddErrors(result);
+        //            return View();
+        //        }
+        //    }
 
-            // 如果我们进行到这一步时某个地方出错，则重新显示表单
-            return View(model);
-        }
+        //    // 如果我们进行到这一步时某个地方出错，则重新显示表单
+        //    return View(model);
+        //}
 
         //
         // GET: /Account/ResetPasswordConfirmation
