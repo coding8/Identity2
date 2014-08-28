@@ -1,0 +1,35 @@
+﻿<!--
+    传入字典的模型项的类型为“System.Data.Entity.DynamicProxies.IdentityRole_EF2E0D58C3BA6E408F7CE4E0F0A964E6B70CE2ECD475CF68964E3AEE9227793F”，但此字典需要类型“Identity2.Models.RoleViewModel”的模型项。
+@*@model Identity2.Models.RoleViewModel*@
+-->
+@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this Role? </h3>
+<p>Deleting this Role will remove all users from this role. It will not delete the users.</p>
+<div>
+    <h4>Role.</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
