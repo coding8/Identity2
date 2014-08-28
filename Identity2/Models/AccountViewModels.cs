@@ -38,9 +38,13 @@ namespace Identity2.Models
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "电子邮件")]
-        public string Email { get; set; }
+        [Display(Name = "用户")]
+        public string UserName { get; set; }
+
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "电子邮件")]
+        //public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
