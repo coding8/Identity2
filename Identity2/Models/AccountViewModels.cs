@@ -24,7 +24,7 @@ namespace Identity2.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 3)]
         [DataType(DataType.Password)]
         [Display(Name = "新密码")]
         public string NewPassword { get; set; }
