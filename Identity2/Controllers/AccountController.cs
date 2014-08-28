@@ -39,6 +39,18 @@ namespace Identity2.Controllers
             }
         }
 
+        #region Microsoft.AspNet.Identity.Owin从2.0.0升级到2.1.0后增加
+        private ApplicationSignInManager _signInManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set { _signInManager = value; }
+        }
+        #endregion
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -55,22 +67,28 @@ namespace Identity2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
-                {
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "用户名或密码无效。");
-                }
+                return View(model);
             }
 
-            // 如果我们进行到这一步时某个地方出错，则重新显示表单
-            return View(model);
+            // 登录失败触发锁定 shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+                case SignInStatus.Failure:
+                default:
+                    // 登陆错误次数
+                    int loginCounts=SignInManager.UserManager.FindByName(model.UserName).AccessFailedCount;
+                    ModelState.AddModelError("", "用户名或密码无效,尝试次数: " + loginCounts);
+                    return View(model);
+            }
         }
 
         //

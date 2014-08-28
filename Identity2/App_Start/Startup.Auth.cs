@@ -18,7 +18,8 @@ namespace Identity2
         {
             // 将数据库上下文和用户管理器配置为对每个请求使用单个实例
             app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);          
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);// Microsoft.AspNet.Identity.Owin从2.0.0升级到2.1.0后增加
 
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息

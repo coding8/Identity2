@@ -6,8 +6,8 @@
   <mvcSiteMapNode title="Home" controller="Home" action="Index">
     <mvcSiteMapNode title="About" controller="Home" action="About"/>
     <mvcSiteMapNode title="Contact" controller="Home" action="Contact"/>
-    
-    <mvcSiteMapNode title="Menu" controller="Home" action="Menu" >
+
+    <mvcSiteMapNode title="Menu" controller="Home" action="Menu">
       <mvcSiteMapNode title="Menu-1" controller="Home" action="Menu-1"/>
       <mvcSiteMapNode title="Menu-2" controller="Home" action="Menu-2">
         <mvcSiteMapNode title="Menu-2-1" controller="Home" action="Menu21" roles="Admin"/>

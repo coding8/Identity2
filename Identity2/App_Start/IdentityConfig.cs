@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Identity2.Models;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
 
 namespace Identity2
 {
@@ -34,6 +36,13 @@ namespace Identity2
                 //RequireLowercase = true,
                 //RequireUppercase = true,
             };
+            // 启用锁定-数据库表中的LockoutEnabled值为false
+            manager.UserLockoutEnabledByDefault = true;
+            // 锁定时间
+            manager.DefaultAccountLockoutTimeSpan = System.TimeSpan.FromMinutes(3);
+            // 登录尝试次数
+            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+
             // 注册双重身份验证提供程序。此应用程序使用手机和电子邮件作为接收用于验证用户的代码的一个步骤
             // 你可以编写自己的提供程序并在此处插入。
             manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<ApplicationUser>
@@ -71,6 +80,23 @@ namespace Identity2
         {
             // 在此处插入短信服务可发送短信。
             return Task.FromResult(0);
+        }
+    }
+
+    // Microsoft.AspNet.Identity.Owin从2.0.0升级到2.1.0后增加
+    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    {
+        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager) :
+            base(userManager, authenticationManager) { }
+
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        {
+            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+        }
+
+        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        {
+            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
 }
